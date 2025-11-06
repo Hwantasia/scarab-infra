@@ -4,7 +4,7 @@
   "_architecture":"A name of the available architectures (PARAMS.<architecture>) found in scarab repository, which defines the machine parameters of the default configuration.",
   "architecture":"golden_cove",
   "_experiment":"The name of the experiment. scarab-infra will create a new folder named containing all files needed to execute the simulation in the <ROOT_DIR>/simulations/<experiment> directory. The folder will also contain all generated simulation statistics/outputs.",
-  "experiment":"scarab_test_no_gcc",
+  "experiment":"scarab_test_no_gcc_prefetch_ghb_markov",
   "_workload_manager":"manual: run each exp scenario with all the simpoints at a time, slurm: Slurm schedules simulations based on its policy",
   "workload_manager":"manual",
   "_root_dir":"Root directory mounted into the docker container home, for instance, the user's home directory",
@@ -100,11 +100,13 @@
       "warmup":null
     }
   ],
-  "_configurations":"scarab configurations to sweep",
   "configurations": {
-  "Without_data_prefetch": "--bp_mech tage64k --fdip_enable 1 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --mem_req_buffer_entries 64 --ramulator_readq_entries 64 --fe_ftq_block_num 32 --pref_framework_on 0 --pref_stream_on 0 --pref_stride_on 0 --pref_ghb_on 0 --pref_2dc_on 0 --pref_markov_on 0 --pref_stridepc_on 0 --pref_umlc_on 0 --pref_ul1_on 0 --stream_prefetch_on 0",
-  "Stride_aggressive_mlc": "--bp_mech tage64k --fdip_enable 1 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --fe_ftq_block_num 32 --pref_framework_on 1 --pref_stream_on 0 --pref_stride_on 1 --pref_umlc_on 1 --pref_ul1_on 0 --pref_throttlefb_on 0 --pref_req_drop 0 --pref_stride_degree 8 --pref_stride_distance 64 --pref_stride_startdistance 1 --pref_stride_table_n 2048 --pref_umlc_req_queue_size 256 --pref_ul1req_queue_size 256 --pref_umlc_schedule_num 8 --pref_ul1schedule_num 4 --mem_req_buffer_entries 128 --ramulator_readq_entries 64 --mem_req_buffer_pref_watermark 0"
-  },
+  "no_data_prefetch":   "--bp_mech tage64k --fdip_enable 0 --eip_enable 0 --djolt_enable 0 --fnlmma_enable 0 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --fe_ftq_block_num 32 --icache_size 65536 --pref_framework_on 0 --pref_umlc_on 0 --pref_ul1_on 0 --stream_prefetch_on 0 --l2l1pref_on 0 --l2way_pref 0 --l2markv_pref_on 0 --mem_req_buffer_entries 128 --ramulator_readq_entries 64 --mlc_read_ports 2 --mlc_banks 16 --mem_req_buffer_pref_watermark 0",
+  "ghb_non_agg_mlc":    "--bp_mech tage64k --fdip_enable 0 --eip_enable 0 --djolt_enable 0 --fnlmma_enable 0 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --fe_ftq_block_num 32 --icache_size 65536 --pref_framework_on 1 --pref_umlc_on 1 --pref_ul1_on 0 --stream_prefetch_on 0 --l2l1pref_on 0 --l2way_pref 0 --l2markv_pref_on 0 --pref_ghb_on 1 --pref_ghb_degree 4 --pref_ghb_max_degree 8 --pref_ghb_buffer_n 1024 --pref_ghb_index_n 128 --pref_ghb_czone_bits 12 --pref_umlc_req_queue_size 256 --pref_umlc_req_queue_filter_on 1 --mem_req_buffer_entries 128 --ramulator_readq_entries 64 --mlc_read_ports 2 --mlc_banks 16 --mem_req_buffer_pref_watermark 0",
+  "ghb_agg_mlc":        "--bp_mech tage64k --fdip_enable 0 --eip_enable 0 --djolt_enable 0 --fnlmma_enable 0 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --fe_ftq_block_num 32 --icache_size 65536 --pref_framework_on 1 --pref_umlc_on 1 --pref_ul1_on 0 --stream_prefetch_on 0 --l2l1pref_on 0 --l2way_pref 0 --l2markv_pref_on 0 --pref_ghb_on 1 --pref_ghb_degree 16 --pref_ghb_max_degree 32 --pref_ghb_buffer_n 2048 --pref_ghb_index_n 256 --pref_ghb_czone_bits 12 --pref_umlc_req_queue_size 256 --pref_umlc_req_queue_filter_on 1 --mem_req_buffer_entries 128 --ramulator_readq_entries 64 --mlc_read_ports 2 --mlc_banks 16 --mem_req_buffer_pref_watermark 0",
+  "markov_non_agg_mlc": "--bp_mech tage64k --fdip_enable 0 --eip_enable 0 --djolt_enable 0 --fnlmma_enable 0 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --fe_ftq_block_num 32 --icache_size 65536 --pref_framework_on 1 --pref_umlc_on 1 --pref_ul1_on 0 --stream_prefetch_on 0 --l2l1pref_on 0 --l2way_pref 0 --l2markv_pref_on 0 --pref_markov_on 1 --pref_markov_num_next_states 2 --pref_markov_send_threshold 1 --pref_markov_num_entries 65536 --pref_umlc_req_queue_size 256 --pref_umlc_req_queue_filter_on 1 --mem_req_buffer_entries 128 --ramulator_readq_entries 64 --mlc_read_ports 2 --mlc_banks 16 --mem_req_buffer_pref_watermark 0",
+  "markov_agg_mlc":     "--bp_mech tage64k --fdip_enable 0 --eip_enable 0 --djolt_enable 0 --fnlmma_enable 0 --btb_entries 8192 --perfect_crs 1 --wp_collect_stats 1 --fe_ftq_block_num 32 --icache_size 65536 --pref_framework_on 1 --pref_umlc_on 1 --pref_ul1_on 0 --stream_prefetch_on 0 --l2l1pref_on 0 --l2way_pref 0 --l2markv_pref_on 0 --pref_markov_on 1 --pref_markov_num_next_states 4 --pref_markov_send_threshold 0 --pref_markov_num_entries 131072 --pref_umlc_req_queue_size 256 --pref_umlc_req_queue_filter_on 1 --mem_req_buffer_entries 128 --ramulator_readq_entries 64 --mlc_read_ports 2 --mlc_banks 16 --mem_req_buffer_pref_watermark 0"
+},
   "_visualize_counters":"List of PMU/stat names to plot when running ./sci --visualize <descriptor>.",
   "visualize_counters":[
     "Periodic_IPC"
